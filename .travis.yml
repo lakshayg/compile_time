@@ -1,0 +1,23 @@
+sudo: false
+language: cpp
+os: linux
+matrix:
+  include:
+    - env: COMPILER=g++-5
+      compiler: gcc
+      addons: &gcc5
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - libboost-all-dev
+            - g++-5
+            - cmake
+install:
+  - export CXX="${COMPILER}"
+before_script:
+  - ${CXX} --version
+script:
+- mkdir -p build && cd build
+- cmake .. -DCMAKE_CXX_COMPILER=${CXX}
+- make -j && make test
